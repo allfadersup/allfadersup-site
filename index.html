@@ -4,7 +4,7 @@
     <title>All Faders Up</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://html5up.net/uploads/demos/eventually/assets/css/main.css" />
     <style>
       body {
@@ -21,13 +21,28 @@
         align-items: center;
       }
 
-      .top-left {
+      .center-logo {
         position: absolute;
-        top: 2vh;
-        left: 2vw;
-        font-size: 2em;
-        font-weight: bold;
-        letter-spacing: 0.1em;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3.5em;
+        letter-spacing: 0.15em;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+      }
+
+      .center-logo::before {
+        content: "";
+        position: absolute;
+        top: -150%;
+        left: -150%;
+        width: 400%;
+        height: 400%;
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, transparent 60%);
+        z-index: -1;
       }
 
       .bottom-center {
@@ -73,7 +88,7 @@
     </style>
   </head>
   <body>
-    <div class="top-left">ALL FADERS UP</div>
+    <div class="center-logo">ALL FADERS UP</div>
 
     <div class="bottom-center">
       <p>MIX IN PROGRESS</p>
