@@ -15,9 +15,19 @@
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
+				align-items: center;
 				height: 100vh;
 				margin: 0;
 				padding: 0 1em;
+			}
+
+			.overlay {
+				background: rgba(0, 0, 0, 0.5);
+				padding: 2em 3em;
+				border-radius: 12px;
+				backdrop-filter: blur(8px);
+				box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+				display: inline-block;
 			}
 
 			h1 {
@@ -43,8 +53,10 @@
 	</head>
 	<body>
 		<main>
-			<h1>ALL FADERS UP</h1>
-			<p>Work In Progress.<br>Site coming soon.</p>
+			<div class="overlay">
+				<h1>ALL FADERS UP</h1>
+				<p>MIP – Mix In Progress<br>Site coming soon.</p>
+			</div>
 		</main>
 		<footer>
 			&copy; 2025 All Faders Up Inc. All rights reserved.
