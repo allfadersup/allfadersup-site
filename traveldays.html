@@ -3,422 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Settlement Travel History Tracker</title>
+    <title>UK Settlement Travel Days Calculator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .summary {
-            background: #e8f4fd;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .summary h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        
-        .form-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        label {
-            font-weight: bold;
-            color: #34495e;
-            margin-bottom: 5px;
-            display: block;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-        
-        button {
-            background: #27ae60;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-        }
-        
-        button:hover {
-            background: #219a52;
-        }
-        
-        .delete-btn {
-            background: #e74c3c;
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-        
-        .delete-btn:hover {
-            background: #c0392b;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-        }
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        
-        th {
-            background: #34495e;
-            color: white;
-            font-weight: bold;
-        }
-        
-        tr:nth-child(even) {
-            background: #f9f9f9;
-        }
-        
-        .total-days {
-            background: #2ecc71 !important;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        
-        .export-section {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .tips {
-            background: #fff8e1;
-            border-left: 4px solid #ff9800;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .tips h4 {
-            margin-top: 0;
-            color: #e65100;
-        }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        .summary { background: #f0f8ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .form { background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .row > div { flex: 1; min-width: 120px; }
+        label { display: block; font-weight: bold; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
+        button { background: #007cba; color: white; padding: 10px 20px; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #005a87; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background: #f5f5f5; }
+        .delete { background: #dc3545; padding: 3px 8px; font-size: 12px; }
+        .warning { background: #fff3cd; border-left: 3px solid #ffc107; padding: 10px; margin: 10px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>UK Settlement Travel History Tracker</h1>
-        
-        <div class="summary">
-            <h3>📊 Travel Summary</h3>
-            <p><strong>Total Trips:</strong> <span id="totalTrips">0</span></p>
-            <p><strong>Total Days Outside UK:</strong> <span id="totalDays">0</span></p>
-            <p><strong>Longest Single Trip:</strong> <span id="longestTrip">0 days</span></p>
-            <p><strong>5-Year Period:</strong> <span id="dateRange">Please add trips to see range</span></p>
-        </div>
+    <h1>UK Settlement Travel Days Calculator</h1>
+    
+    <div class="summary">
+        <strong>Total Days Outside UK:</strong> <span id="totalDays">0</span> | 
+        <strong>Total Trips:</strong> <span id="totalTrips">0</span>
+    </div>
 
-        <div class="tips">
-            <h4>💡 Important Tips</h4>
-            <ul>
-                <li><strong>Include ALL trips:</strong> Even day trips, transits, and brief visits</li>
-                <li><strong>Count partial days:</strong> If you left on Day 1 and returned on Day 3, count all 3 days</li>
-                <li><strong>Check your calculation:</strong> The tool will auto-calculate days between dates</li>
-                <li><strong>Supporting documents:</strong> Keep passport stamps, tickets, and receipts organized</li>
-            </ul>
-        </div>
-        
-        <div class="form-section">
-            <h3>Add New Trip</h3>
-            <div class="form-row">
-                <div>
-                    <label for="departureDate">Departure Date (from UK):</label>
-                    <input type="date" id="departureDate" required>
-                </div>
-                <div>
-                    <label for="returnDate">Return Date (to UK):</label>
-                    <input type="date" id="returnDate" required>
-                </div>
-                <div>
-                    <label for="destination">Destination(s):</label>
-                    <input type="text" id="destination" placeholder="e.g., France, Germany" required>
-                </div>
+    <div class="form">
+        <div class="row">
+            <div>
+                <label>Departure Date:</label>
+                <input type="date" id="departure" required>
             </div>
-            <div class="form-row">
-                <div>
-                    <label for="purpose">Purpose of Travel:</label>
-                    <select id="purpose" required>
-                        <option value="">Select purpose...</option>
-                        <option value="Holiday/Tourism">Holiday/Tourism</option>
-                        <option value="Business">Business</option>
-                        <option value="Family Visit">Family Visit</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Education/Training">Education/Training</option>
-                        <option value="Transit">Transit</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="notes">Notes (optional):</label>
-                    <input type="text" id="notes" placeholder="Additional details...">
-                </div>
+            <div>
+                <label>Return Date:</label>
+                <input type="date" id="return" required>
             </div>
-            <button onclick="addTrip()">Add Trip</button>
+            <div>
+                <label>Destination:</label>
+                <input type="text" id="destination" placeholder="e.g. France" required>
+            </div>
         </div>
-
-        <div id="warningMessage" class="warning" style="display: none;"></div>
-        
-        <table id="tripsTable">
-            <thead>
-                <tr>
-                    <th>Departure Date</th>
-                    <th>Return Date</th>
-                    <th>Days Away</th>
-                    <th>Destination(s)</th>
-                    <th>Purpose</th>
-                    <th>Notes</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="tripsBody">
-            </tbody>
-            <tfoot>
-                <tr class="total-days">
-                    <td colspan="2"><strong>TOTAL</strong></td>
-                    <td id="totalDaysCell"><strong>0</strong></td>
-                    <td colspan="4"></td>
-                </tr>
-            </tfoot>
-        </table>
-        
-        <div class="export-section">
-            <h3>Export Your Data</h3>
-            <button onclick="exportToCSV()">📄 Download as CSV</button>
-            <button onclick="printReport()">🖨️ Print Report</button>
-            <button onclick="saveData()">💾 Save to Browser</button>
-            <button onclick="loadData()">📂 Load Saved Data</button>
+        <div class="row">
+            <div>
+                <label>Purpose:</label>
+                <select id="purpose" required>
+                    <option value="">Select...</option>
+                    <option value="Holiday">Holiday</option>
+                    <option value="Business">Business</option>
+                    <option value="Family">Family Visit</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: end;">
+                <button onclick="addTrip()">Add Trip</button>
+            </div>
         </div>
     </div>
 
-    <script>
-        let trips = [];
-        let tripCounter = 0;
+    <div id="warning" class="warning" style="display: none;"></div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Departure</th>
+                <th>Return</th>
+                <th>Days</th>
+                <th>Destination</th>
+                <th>Purpose</th>
+            </tr>
+        </thead>
+        <tbody id="trips"></tbody>
+    </table>
 
-        // Load saved data on page load
-        window.onload = function() {
-            loadData();
-        };
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="exportCSV()">Download CSV</button>
+        <button onclick="clearAll()">Clear All</button>
+    </div>
+
+    <script>
+        let trips = JSON.parse(localStorage.getItem('ukTrips') || '[]');
+        let nextId = Math.max(...trips.map(t => t.id || 0), 0) + 1;
 
         function addTrip() {
-            const departureDate = document.getElementById('departureDate').value;
-            const returnDate = document.getElementById('returnDate').value;
+            const departure = document.getElementById('departure').value;
+            const returnDate = document.getElementById('return').value;
             const destination = document.getElementById('destination').value;
             const purpose = document.getElementById('purpose').value;
-            const notes = document.getElementById('notes').value;
 
-            if (!departureDate || !returnDate || !destination || !purpose) {
-                alert('Please fill in all required fields');
+            if (!departure || !returnDate || !destination || !purpose) {
+                alert('Please fill all fields');
                 return;
             }
 
-            const departure = new Date(departureDate);
-            const returnD = new Date(returnDate);
+            const start = new Date(departure);
+            const end = new Date(returnDate);
 
-            if (returnD < departure) {
+            if (end < start) {
                 alert('Return date cannot be before departure date');
                 return;
             }
 
-            const daysAway = Math.ceil((returnD - departure) / (1000 * 60 * 60 * 24)) + 1;
+            // Calculate days including both departure and return dates
+            const timeDiff = end.getTime() - start.getTime();
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
 
-            const trip = {
-                id: ++tripCounter,
-                departureDate,
-                returnDate,
-                daysAway,
+            trips.push({
+                id: nextId++,
+                departure,
+                return: returnDate,
+                days,
                 destination,
-                purpose,
-                notes
-            };
+                purpose
+            });
 
-            trips.push(trip);
-            trips.sort((a, b) => new Date(a.departureDate) - new Date(b.departureDate));
-            
-            updateTable();
-            updateSummary();
+            trips.sort((a, b) => new Date(a.departure) - new Date(b.departure));
+            save();
+            render();
             clearForm();
-            saveData();
         }
 
         function deleteTrip(id) {
-            if (confirm('Are you sure you want to delete this trip?')) {
-                trips = trips.filter(trip => trip.id !== id);
-                updateTable();
-                updateSummary();
-                saveData();
+            if (confirm('Delete this trip?')) {
+                trips = trips.filter(t => t.id !== id);
+                save();
+                render();
             }
         }
 
-        function updateTable() {
-            const tbody = document.getElementById('tripsBody');
-            tbody.innerHTML = '';
-
-            trips.forEach(trip => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${formatDate(trip.departureDate)}</td>
-                    <td>${formatDate(trip.returnDate)}</td>
-                    <td>${trip.daysAway}</td>
+        function render() {
+            const tbody = document.getElementById('trips');
+            tbody.innerHTML = trips.map(trip => `
+                <tr>
+                    <td>${formatDate(trip.departure)}</td>
+                    <td>${formatDate(trip.return)}</td>
+                    <td>${trip.days}</td>
                     <td>${trip.destination}</td>
                     <td>${trip.purpose}</td>
-                    <td>${trip.notes}</td>
-                    <td><button class="delete-btn" onclick="deleteTrip(${trip.id})">Delete</button></td>
-                `;
-            });
+                </tr>
+            `).join('');
 
-            const totalDays = trips.reduce((sum, trip) => sum + trip.daysAway, 0);
-            document.getElementById('totalDaysCell').innerHTML = `<strong>${totalDays}</strong>`;
-        }
-
-        function updateSummary() {
-            const totalTrips = trips.length;
-            const totalDays = trips.reduce((sum, trip) => sum + trip.daysAway, 0);
-            const longestTrip = trips.length > 0 ? Math.max(...trips.map(trip => trip.daysAway)) : 0;
-            
-            let dateRange = 'Please add trips to see range';
-            if (trips.length > 0) {
-                const sortedTrips = [...trips].sort((a, b) => new Date(a.departureDate) - new Date(b.departureDate));
-                const earliestDate = formatDate(sortedTrips[0].departureDate);
-                const latestDate = formatDate(sortedTrips[sortedTrips.length - 1].returnDate);
-                dateRange = `${earliestDate} to ${latestDate}`;
-            }
-
-            document.getElementById('totalTrips').textContent = totalTrips;
+            const totalDays = trips.reduce((sum, trip) => sum + trip.days, 0);
             document.getElementById('totalDays').textContent = totalDays;
-            document.getElementById('longestTrip').textContent = `${longestTrip} days`;
-            document.getElementById('dateRange').textContent = dateRange;
+            document.getElementById('totalTrips').textContent = trips.length;
 
-            // Check for potential issues
-            checkForWarnings(totalDays);
+            const warning = document.getElementById('warning');
+            if (totalDays > 450) {
+                warning.style.display = 'block';
+                warning.textContent = `Warning: ${totalDays} days exceeds the typical 450-day limit for UK settlement.`;
+            } else {
+                warning.style.display = 'none';
+            }
         }
 
-        function checkForWarnings(totalDays) {
-            const warningDiv = document.getElementById('warningMessage');
-            
-            if (totalDays > 450) { // More than 450 days in 5 years
-                warningDiv.style.display = 'block';
-                warningDiv.innerHTML = `
-                    <strong>⚠️ Warning:</strong> You have ${totalDays} days outside the UK. 
-                    For settlement applications, you typically cannot have been outside the UK for more than 450 days in the 5-year period. 
-                    Please double-check your dates and consult with an immigration advisor.
-                `;
-            } else {
-                warningDiv.style.display = 'none';
-            }
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-GB');
         }
 
         function clearForm() {
-            document.getElementById('departureDate').value = '';
-            document.getElementById('returnDate').value = '';
+            document.getElementById('departure').value = '';
+            document.getElementById('return').value = '';
             document.getElementById('destination').value = '';
             document.getElementById('purpose').value = '';
-            document.getElementById('notes').value = '';
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-GB');
+        function save() {
+            localStorage.setItem('ukTrips', JSON.stringify(trips));
         }
 
-        function exportToCSV() {
-            let csv = 'Departure Date,Return Date,Days Away,Destination(s),Purpose,Notes\n';
-            
-            trips.forEach(trip => {
-                csv += `${trip.departureDate},${trip.returnDate},${trip.daysAway},"${trip.destination}","${trip.purpose}","${trip.notes}"\n`;
-            });
-
-            const totalDays = trips.reduce((sum, trip) => sum + trip.daysAway, 0);
-            csv += `\nTOTAL DAYS OUTSIDE UK:,${totalDays}`;
+        function exportCSV() {
+            const csv = [
+                'Departure,Return,Days,Destination,Purpose',
+                ...trips.map(t => `${t.departure},${t.return},${t.days},"${t.destination}","${t.purpose}"`),
+                '',
+                `Total Days Outside UK:,${trips.reduce((sum, trip) => sum + trip.days, 0)}`
+            ].join('\n');
 
             const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'UK_Settlement_Travel_History.csv';
+            a.download = 'uk-travel-history.csv';
             a.click();
-            window.URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url);
         }
 
-        function printReport() {
-            window.print();
-        }
-
-        function saveData() {
-            localStorage.setItem('ukSettlementTrips', JSON.stringify({ trips, tripCounter }));
-        }
-
-        function loadData() {
-            const saved = localStorage.getItem('ukSettlementTrips');
-            if (saved) {
-                const data = JSON.parse(saved);
-                trips = data.trips || [];
-                tripCounter = data.tripCounter || 0;
-                updateTable();
-                updateSummary();
+        function clearAll() {
+            if (confirm('Clear all trips? This cannot be undone.')) {
+                trips = [];
+                save();
+                render();
             }
         }
+
+        // Initialize
+        render();
     </script>
 </body>
 </html>
